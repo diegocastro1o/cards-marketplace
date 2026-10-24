@@ -1,0 +1,84 @@
+@startuml
+
+class User {
+    + user_name: str
+    - balance: int
+    - inventory: list[Card]
+
+    + get_balance(): int
+    + debit(amount: int): None
+    + credit(amount: int): None
+    + has_card(card: Card): bool
+    + add_card(card: Card): None
+    + remove_card(card: Card): None
+}
+
+class Pack {
+    + price: int
+    + card_count: int
+
+    + purchase(buyer: User): None
+    - open(): list[Card]
+}
+
+class MarketListing {
+    + card: Card
+    - seller: User
+    + price: int
+
+    + purchase(buyer: User): None
+}
+
+class Card {
+    + id: int
+    + full_name: str
+    + position: PlayerPosition
+    + trait: CardTrait | None
+    + rarity: CardRarity
+}
+
+enum CardRarity {
+    COMMON
+    RARE
+    EXCEPTIONAL
+    ELITE
+    MASTERCLASS
+    LEGENDARY
+}
+
+enum PlayerPosition {
+    GOALKEEPER
+    DEFENDER
+    MIDFIELDER
+    FORWARD
+}
+
+enum CardTrait {
+    ONE_ABOVE_ALL
+    TEAM_OF_THE_CHAMPIONS
+    UNRIVALED
+    THE_CHOSEN_ONE
+    BORN_TO_LEAD
+    A_CLASS_APART
+    NET_BREAKER
+    PLAYMAKER
+    DEFENSE_MASTER
+    NET_GUARDIAN
+    HEART_OF_THE_TEAM
+    ARMBAND_BEARER
+    LEADER_OF_MANY
+}
+
+User "1" - "0..*" Card : tiene
+User "1" -- "0..*" MarketListing : publica
+
+Card "1" -- "0..1" MarketListing : es ofrecida
+
+Card ..> CardRarity
+Card ..> PlayerPosition
+Card ..> CardTrait
+
+Pack ..> User : cobra
+Pack ..> Card : genera
+
+@enduml
