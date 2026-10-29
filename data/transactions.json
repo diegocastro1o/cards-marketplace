@@ -1,0 +1,20 @@
+[
+  {
+    "operation_id": "op-1",
+    "type": "card_sale",
+    "ocurred_at": "",
+    "details": ""
+  },
+  {
+    "operation_id": "op-2",
+    "type": "card_trade",
+    "ocurred_at": "",
+    "details": ""
+  },
+  {
+    "operation_id": "op-3",
+    "type": "pack_opening",
+    "ocurred_at": "",
+    "details": ""
+  }
+]
