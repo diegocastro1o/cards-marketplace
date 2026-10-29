@@ -1,7 +1,32 @@
 @startuml
+abstract class Transaction {
+    - operation_id : str
+    - type : str
+    - ocurred_at : str
+}
+class pack_opening {
+    - user_id : int
+    - pack_type : str
 
+
+
+}
+
+
+class Market {
+    - users: list[User]
+    - listings : list[MarketListing]
+    - catalog : list[Card]
+    - packs : list[Pack]
+    -transactions : list[Transaction]
+
+
+
+
+}
 class User {
-    + user_name: str
+    - user_id : int
+    - user_name: str
     - balance: int
     - inventory: list[Card]
 
@@ -11,30 +36,55 @@ class User {
     + has_card(card: Card): bool
     + add_card(card: Card): None
     + remove_card(card: Card): None
+    + open_pack(pack_type: str) : None
+}
+class CardDrawer {
+    + draw_card(catalog,weight): Card
+
+
 }
 
-class Pack {
-    + price: int
-    + card_count: int
+abstract class Pack {
+    - type : str
+    - price: int
+    - card_count: int
+    - rarity_weights: dict
 
     + purchase(buyer: User): None
-    - open(): list[Card]
+    + open():
+    + generate_cards(): list[Card]
+}
+class BronzePack{
+    -card_count : int
+    -price : int
+
+}
+class SilverPack{
+    -card_count : int
+    -price : int
+
+}
+class GoldPack{
+    -card_count : int
+    -price : int
+
 }
 
+
 class MarketListing {
-    + card: Card
+    - card: Card
     - seller: User
-    + price: int
+    - price: int
 
     + purchase(buyer: User): None
 }
 
 class Card {
-    + id: int
-    + full_name: str
-    + position: PlayerPosition
-    + trait: CardTrait | None
-    + rarity: CardRarity
+    - card_id: int
+    - full_name: str
+    - position: PlayerPosition
+    - trait: CardTrait | None
+    - rarity: CardRarity
 }
 
 enum CardRarity {
@@ -80,5 +130,8 @@ Card ..> CardTrait
 
 Pack ..> User : cobra
 Pack ..> Card : genera
-
+pack_opening --|> Transaction
+BronzePack --|> Pack
+SilverPack --|> Pack
+GoldPack --|> Pack
 @enduml
