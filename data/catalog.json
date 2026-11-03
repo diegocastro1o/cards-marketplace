@@ -1,0 +1,206 @@
+{
+  "common": [
+    {
+      "catalog_id": "CARD-001",
+      "full_name": "Jonas Urbig",
+      "team": "Bayern Múnich",
+      "position": "goalkeeper",
+      "trait": null,
+      "stats": {}
+    },
+    {
+      "catalog_id": "CARD-002",
+      "full_name": "Eric García",
+      "team": "FC Barcelona",
+      "position": "defender",
+      "trait": null,
+      "stats": {}
+    },
+    {
+      "catalog_id": "CARD-003",
+      "full_name": "Marc Bernal",
+      "team": "FC Barcelona",
+      "position": "midfielder",
+      "trait": null,
+      "stats": {}
+    },
+    {
+      "catalog_id": "CARD-004",
+      "full_name": "Ferran Torres",
+      "team": "Paris Saint-Germain",
+      "position": "forward",
+      "trait": null,
+      "stats": {}
+    }
+  ],
+  "rare": [
+    {
+      "catalog_id": "CARD-005",
+      "full_name": "Kepa Arrizabalaga",
+      "team": "Arsenal",
+      "position": "goalkeeper",
+      "trait": null,
+      "stats": {}
+    },
+    {
+      "catalog_id": "CARD-006",
+      "full_name": "Gerard Martín",
+      "team": "FC Barcelona",
+      "position": "defender",
+      "trait": null,
+      "stats": {}
+    },
+    {
+      "catalog_id": "CARD-007",
+      "full_name": "Konrad Laimer",
+      "team": "Bayern Múnich",
+      "position": "midfielder",
+      "trait": null,
+      "stats": {}
+    },
+    {
+      "catalog_id": "CARD-008",
+      "full_name": "Matteo Politano",
+      "team": "Napoli",
+      "position": "forward",
+      "trait": null,
+      "stats": {}
+    }
+  ],
+  "exceptional": [
+    {
+      "catalog_id": "CARD-009",
+      "full_name": "Giorgi Mamardashvili",
+      "team": "Liverpool",
+      "position": "goalkeeper",
+      "trait": null,
+      "stats": {}
+    },
+    {
+      "catalog_id": "CARD-010",
+      "full_name": "Robin Le Normand",
+      "team": "Atlético de Madrid",
+      "position": "defender",
+      "trait": null,
+      "stats": {}
+    },
+    {
+      "catalog_id": "CARD-011",
+      "full_name": "Mikel Merino",
+      "team": "Arsenal",
+      "position": "midfielder",
+      "trait": null,
+      "stats": {}
+    },
+    {
+      "catalog_id": "CARD-012",
+      "full_name": "Pio Esposito",
+      "team": "Inter de Milán",
+      "position": "forward",
+      "trait": null,
+      "stats": {}
+    }
+  ],
+  "elite": [
+    {
+      "catalog_id": "CARD-013",
+      "full_name": "Gianluigi Donnarumma",
+      "team": "Manchester City",
+      "position": "goalkeeper",
+      "trait": "net guardian",
+      "stats": {}
+    },
+    {
+      "catalog_id": "CARD-014",
+      "full_name": "Alessandro Bastoni",
+      "team": "Inter de Milán",
+      "position": "defender",
+      "trait": "defense master",
+      "stats": {}
+    },
+    {
+      "catalog_id": "CARD-015",
+      "full_name": "Rodri",
+      "team": "FC Barcelona",
+      "position": "midfielder",
+      "trait": "playmaker",
+      "stats": {}
+    },
+    {
+      "catalog_id": "CARD-016",
+      "full_name": "Alexander Isak",
+      "team": "Liverpool",
+      "position": "forward",
+      "trait": "net breaker",
+      "stats": {}
+    }
+  ],
+  "masterclass": [
+    {
+      "catalog_id": "CARD-017",
+      "full_name": "Manuel Neuer",
+      "team": "Bayern Múnich",
+      "position": "goalkeeper",
+      "trait": "born to lead",
+      "stats": {}
+    },
+    {
+      "catalog_id": "CARD-018",
+      "full_name": "Achraf Hakimi",
+      "team": "Paris Saint-Germain",
+      "position": "defender",
+      "trait": "the chosen one",
+      "stats": {}
+    },
+    {
+      "catalog_id": "CARD-019",
+      "full_name": "Federico Valverde",
+      "team": "Real Madrid",
+      "position": "midfielder",
+      "trait": "born to lead",
+      "stats": {}
+    },
+    {
+      "catalog_id": "CARD-020",
+      "full_name": "Bukayo Saka",
+      "team": "Arsenal",
+      "position": "forward",
+      "trait": "the chosen one",
+      "stats": {}
+    }
+  ],
+  "legendary": [
+    {
+      "catalog_id": "CARD-021",
+      "full_name": "Thibaut Courtois",
+      "team": "Real Madrid",
+      "position": "goalkeeper",
+      "trait": "unrivaled",
+      "stats": {}
+    },
+    {
+      "catalog_id": "CARD-022",
+      "full_name": "William Saliba",
+      "team": "Arsenal",
+      "position": "defender",
+      "trait": "unrivaled",
+      "stats": {}
+    },
+    {
+      "catalog_id": "CARD-023",
+      "full_name": "Pedri",
+      "team": "FC Barcelona",
+      "position": "midfielder",
+      "trait": "unrivaled",
+      "stats": {}
+    },
+    {
+      "catalog_id": "CARD-024",
+      "full_name": "Kylian Mbappé",
+      "team": "Real Madrid",
+      "position": "forward",
+      "trait": "one above all",
+      "stats": {}
+    }
+  ]
+}

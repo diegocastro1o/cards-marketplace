@@ -1,0 +1,20 @@
+{
+  "users": [
+    {
+      "username": "Diego",
+      "balance": 6500,
+      "inventory": []
+    },
+    {
+      "username": "Santi",
+      "balance": 6500,
+      "inventory": []
+    },
+    {
+      "username": "Gonza",
+      "balance": 6500,
+      "inventory": []
+    }
+  ],
+  "listings": []
+}
