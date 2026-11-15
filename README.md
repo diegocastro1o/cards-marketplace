@@ -52,3 +52,9 @@ La colección personal y el intercambio entre usuarios se encuentran en un mismo
 | Programación Científica y Técnica | Mercado de cartas | Python |
 
 El objetivo académico es diseñar una aplicación pequeña con reglas coherentes, aplicando **programación orientada a objetos** y **programación funcional**, y poder justificar las decisiones tomadas durante su desarrollo.
+
+## Integrantes
+
+- Diego Castro
+- Gonzalo Muñoz
+- Santiago Pais

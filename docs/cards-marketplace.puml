@@ -1,73 +1,108 @@
 @startuml
-abstract class Transaction {
-    - operation_id : str
-    - type : str
-    - ocurred_at : str
+title Champions League Cards Marketplace — Modelo actual
+
+abstract class Transaction <<inmutable>> {
+    + operation_id : str
+    + occurred_at : str
+    {abstract} + type : str
 }
-class pack_opening {
-    - user_id : int
-    - pack_type : str
-
-
-
+class PackOpening <<inmutable>> {
+    + type : str = "pack_opening" {readOnly}
+    + user_id : int
+    + pack_type : str
+    + paid_amount : int
+    + received_cards : tuple[Card, ...]
 }
 
+class CardSale <<inmutable>> {
+    + type : str = "card_sale" {readOnly}
+    + buyer_id : int
+    + seller_id : int
+    + card_id : str
+    + price : int
+    + commission : int
+}
+
+class CardExchange <<inmutable>> {
+    + type : str = "card_exchange" {readOnly}
+    + first_user_id : int
+    + second_user_id : int
+    + first_card_id : str
+    + second_card_id : str
+}
 
 class Market {
     - users: list[User]
     - listings : list[MarketListing]
-    - catalog : list[Card]
+    - catalog : dict[CardRarity, list[Player]]
     - packs : list[Pack]
-    -transactions : list[Transaction]
+    - transactions : list[Transaction]
+    - id_factory : Callable[[], UUID]
+    - history_base : list[User]
+    - history_start : int
 
-
-
-
+    + history_start : int {readOnly}
+    + open_pack(buyer: User, pack: Pack, drawer: CardDrawer, day: str): list[Card]
+    + publish_card(seller: User, card: Card, price: int): MarketListing
+    + get_active_listings(): list[MarketListing]
+    + buy_card(buyer: User, listing: MarketListing, day: str): None
+    + exchange_cards(first: User, first_card: Card, second: User, second_card: Card, day: str): None
+    + get_history(): list[Transaction]
+    + get_history_base(): list[User]
+    + reconstruct_users(operations_ago: int = 0): list[User]
 }
 class User {
+    {static} + INITIAL_FREE_PACKS : int = 3
+    {static} + DAILY_PACK_LIMIT : int = 5
     - user_id : int
     - user_name: str
     - balance: int
     - inventory: list[Card]
+    - free_packs_remaining : int
+    - packs_opened_today : int
+    - last_opening_day : date | None
 
+    + user_id : int {readOnly}
+    + user_name : str {readOnly}
+    + balance : int {readOnly}
+    + inventory : list[Card] {readOnly}
+    + free_packs_remaining : int {readOnly}
+    + packs_opened_today : int {readOnly}
+    + last_opening_day : date | None {readOnly}
     + get_balance(): int
     + debit(amount: int): None
     + credit(amount: int): None
     + has_card(card: Card): bool
     + add_card(card: Card): None
     + remove_card(card: Card): None
-    + open_pack(pack_type: str) : None
+    + can_open_pack(day: str): bool
+    + register_pack_opening(day: str, used_free_pack: bool): None
 }
 class CardDrawer {
-    + draw_card(catalog,weight): Card
+    - rng : Random
+    - id_factory : Callable[[], UUID]
 
-
+    + draw_card(catalog: dict[CardRarity, list[Player]], weights: dict[CardRarity, int]): Card
+    # _select_player(catalog: dict[CardRarity, list[Player]], weights: dict[CardRarity, int]): tuple[CardRarity, Player]
 }
 
 abstract class Pack {
     - type : str
     - price: int
     - card_count: int
-    - rarity_weights: dict
+    - rarity_weights: dict[CardRarity, int]
 
-    + purchase(buyer: User): None
-    + open():
-    + generate_cards(): list[Card]
+    + type : str {readOnly}
+    + price : int {readOnly}
+    + card_count : int {readOnly}
+    + rarity_weights : dict[CardRarity, int] {readOnly}
+    + open(catalog: dict[CardRarity, list[Player]], drawer: CardDrawer): list[Card]
 }
 class BronzePack{
-    -card_count : int
-    -price : int
-
 }
 class SilverPack{
-    -card_count : int
-    -price : int
-
 }
 class GoldPack{
-    -card_count : int
-    -price : int
-
 }
 
 
@@ -75,16 +110,35 @@ class MarketListing {
     - card: Card
     - seller: User
     - price: int
+    - active : bool
 
-    + purchase(buyer: User): None
+    + card : Card {readOnly}
+    + seller : User {readOnly}
+    + price : int {readOnly}
+    + active : bool {readOnly}
+    + close(): None
 }
 
-class Card {
-    - card_id: int
-    - full_name: str
-    - position: PlayerPosition
-    - trait: CardTrait | None
-    - rarity: CardRarity
+class ValueError <<Python>>
+class InsufficientFundsError <<exception>>
+InsufficientFundsError --|> ValueError
+User ..> InsufficientFundsError : lanza al debitar sin saldo
+Market ..> InsufficientFundsError : lanza al comprar sin saldo
+
+class Card <<inmutable>> {
+    + card_id: str
+    + full_name: str
+    + position: PlayerPosition
+    + trait: CardTrait | None
+    + rarity: CardRarity
+}
+
+class Player <<inmutable>> {
+    + player_id: str
+    + full_name: str
+    + team: str
+    + position: str
+    + trait: str
 }
 
 enum CardRarity {
@@ -119,19 +173,96 @@ enum CardTrait {
     LEADER_OF_MANY
 }
 
-User "1" - "0..*" Card : tiene
+User "0..1" - "0..*" Card : tiene
 User "1" -- "0..*" MarketListing : publica
 
-Card "1" -- "0..1" MarketListing : es ofrecida
+Card "1" -- "0..*" MarketListing : es ofrecida
 
 Card ..> CardRarity
 Card ..> PlayerPosition
 Card ..> CardTrait
 
-Pack ..> User : cobra
+Market "1" o-- "0..*" User : registra
+Market "1" o-- "0..*" MarketListing : administra
+Market o-- "0..*" Player : cataloga por rareza
+Market "1" o-- "0..*" Pack : ofrece
+Market "1" *-- "0..*" Transaction : registra
+Market ..> CardDrawer : utiliza
+Market ..> PackOpening : crea
+Market ..> CardSale : crea
+Market ..> CardExchange : crea
+
+Pack ..> CardDrawer : utiliza
 Pack ..> Card : genera
-pack_opening --|> Transaction
+CardDrawer ..> Player : sortea
+CardDrawer ..> Card : crea ejemplar
+CardDrawer ..> CardRarity : pondera
+
+PackOpening --|> Transaction
+CardSale --|> Transaction
+CardExchange --|> Transaction
+PackOpening "0..*" --> "1..*" Card : registra resultado
 BronzePack --|> Pack
 SilverPack --|> Pack
 GoldPack --|> Pack
+
+note right of Market
+  Coordina aperturas, publicaciones, compras e intercambios.
+  Valida antes de modificar saldos e inventarios.
+  Conserva historial y una copia independiente de su base.
+  La fecha y los generadores de azar e IDs vienen de afuera.
+end note
+
+note right of MarketListing
+  Market verifica que el vendedor esté registrado,
+  que posea el ejemplar y que no exista otra
+  publicación activa para ese ejemplar.
+  Publicar no cambia el propietario ni el saldo.
+  Comprar transfiere propiedad y fondos, aplica una comisión
+  y cierra la publicación. Un intercambio se rechaza
+  si cualquiera de sus cartas tiene una publicación activa.
+end note
+
+note right of Card
+  Player es una entrada del catálogo.
+  Card es un ejemplar distinto con card_id propio.
+  El ejemplar copia datos del jugador sorteado;
+  no guarda una referencia a Player.
+end note
+
+note right of CardDrawer
+  Recibe el azar y un generador de UUID opcional.
+  Sortea la rareza con pesos y luego un jugador.
+end note
+
+note bottom of Pack
+  Bronze, Silver y Gold comparten la apertura.
+  Cada tipo fija precio y pesos; la cantidad por defecto es tres.
+  open usa card_count y delega el sorteo a CardDrawer.
+  Market consulta el límite diario, cobra o consume
+  un sobre gratuito y actualiza el inventario.
+end note
+
+note bottom of Transaction
+  Registros inmutables de aperturas, ventas e intercambios.
+  app_state.py guarda y recupera usuarios, publicaciones
+  activas, historial y base histórica en el mismo JSON.
+  Publicar una carta no genera una transacción.
+end note
+
+note left of Market
+  reconstruct_users consulta saldos, inventarios y contadores.
+  Delega en la función rebuild_users de history.py, que aplica
+  las operaciones registradas sobre copias, sin reloj ni azar.
+  history_start señala cuántas operaciones preceden a la base.
+  Los archivos anteriores sin base empiezan en el estado conocido.
+  No reconstruye publicaciones, no revierte operaciones
+  y no está integrado al menú ni se ejecuta al arrancar.
+end note
+
+note bottom of User
+  inventory devuelve una copia de la lista.
+  El límite diario es cinco y hay tres sobres gratuitos iniciales.
+  Los contadores cambian solo tras una apertura exitosa.
+end note
 @enduml
