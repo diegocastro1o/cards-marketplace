@@ -1,16 +1,19 @@
 {
   "users": [
     {
+      "user_id": 1,
       "username": "Diego",
       "balance": 6500,
       "inventory": []
     },
     {
+      "user_id": 2,
       "username": "Santi",
       "balance": 6500,
       "inventory": []
     },
     {
+      "user_id": 3,
       "username": "Gonza",
       "balance": 6500,
       "inventory": []
