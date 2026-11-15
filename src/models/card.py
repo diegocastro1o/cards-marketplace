@@ -1,15 +1,28 @@
+"""Cartas y enumeraciones del mercado."""
+
+# from __future__ import annotations
+
+from dataclasses import dataclass
 from enum import Enum
-from uuid import uuid4
 
 
+@dataclass(frozen=True)
 class Card:
-    def __init__(self, full_name: str, position: PlayerPosition, rarity: CardRarity,
-                 trait: CardTrait | None = None):
-        self.id = uuid4()
-        self.full_name = full_name
-        self.position = position
-        self.rarity = rarity
-        self.trait = trait
+    """Ejemplar inmutable con identidad proporcionada desde afuera."""
+
+    card_id: str
+    full_name: str
+    position: PlayerPosition
+    rarity: CardRarity
+    trait: CardTrait | None = None
+
+@dataclass(frozen=True)
+class Player:
+    player_id: str
+    full_name: str
+    team: str
+    position: str
+    trait: str
 
 
 class CardRarity(Enum):
