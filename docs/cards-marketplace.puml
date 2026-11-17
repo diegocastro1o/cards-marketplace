@@ -148,7 +148,6 @@ enum CardRarity {
     ELITE
     MASTERCLASS
     LEGENDARY
-    LEYEND
 }
 
 enum PlayerPosition {

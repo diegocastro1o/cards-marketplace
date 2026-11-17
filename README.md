@@ -53,6 +53,16 @@ La colección personal y el intercambio entre usuarios se encuentran en un mismo
 
 El objetivo académico es diseñar una aplicación pequeña con reglas coherentes, aplicando **programación orientada a objetos** y **programación funcional**, y poder justificar las decisiones tomadas durante su desarrollo.
 
+## Ejecución y pruebas
+
+El proyecto utiliza Python 3.14. Con `uv` instalado, desde la raíz del repositorio:
+
+```powershell
+uv sync --dev
+uv run python src/main.py
+uv run pytest
+```
+
 ## Integrantes
 
 - Diego Castro

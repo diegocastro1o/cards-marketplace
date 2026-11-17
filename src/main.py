@@ -24,6 +24,18 @@ from models import (
 PACK_NAMES = {"bronze": "Bronce", "silver": "Plata", "gold": "Oro"}
 
 
+def normalized_probabilities(pack: Pack) -> dict[str, float]:
+    """Devuelve las probabilidades de rareza del sobre en porcentajes."""
+    weights = pack.rarity_weights
+    total_weight = sum(weights.values())
+    if total_weight <= 0:
+        raise ValueError("El sobre debe tener al menos un peso positivo.")
+    return {
+        rarity.value: weight * 100 / total_weight
+        for rarity, weight in weights.items()
+    }
+
+
 def show_cards(cards: Sequence[Card]) -> None:
     if not cards:
         print("Todavía no hay cartas.")
@@ -36,10 +48,15 @@ def choose_pack(packs: list[Pack]) -> Pack | None:
     options = {str(number): pack for number, pack in enumerate(packs, start=1)}
     print("\nSobres disponibles:")
     for option, pack in options.items():
+        probabilities = " · ".join(
+            f"{rarity}: {probability:.2f}%"
+            for rarity, probability in normalized_probabilities(pack).items()
+        )
         print(
             f"  {option}. {PACK_NAMES[pack.type]} · {pack.card_count} cartas"
             f" · {pack.price} monedas"
         )
+        print(f"     Probabilidades: {probabilities}")
     print("  0. Volver")
 
     while True:

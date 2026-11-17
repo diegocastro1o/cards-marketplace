@@ -30,7 +30,7 @@ usuario recibe tres sobres gratuitos y tiene un límite de cinco aperturas por d
 
 ## Cambio de diseño para mitigarlo
 
-Antes de confirmar la apertura de un sobre, la interfaz debe mostrar:
+Antes de confirmar la apertura de un sobre, la interfaz muestra:
 
 1. El precio en moneda ficticia.
 2. La cantidad de cartas que contiene.
@@ -41,7 +41,7 @@ Antes de confirmar la apertura de un sobre, la interfaz debe mostrar:
 Las probabilidades deben ser iguales para todas las personas y no pueden cambiarse
 según el saldo, el historial de compras ni las cartas que posea un usuario.
 
-Actualmente cada tipo de sobre guarda pesos de rareza fijos. Estos pesos no siempre
+Cada tipo de sobre guarda pesos de rareza fijos. Estos pesos no siempre
 son porcentajes: Bronce y Plata suman 100, pero Oro suma 104. Por lo tanto, al
 mostrar la información se debe calcular para cada rareza:
 
